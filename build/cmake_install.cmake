@@ -132,6 +132,9 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   include("/home/pmj/Desktop/catkin_vscode4/build/gtest/cmake_install.cmake")
   include("/home/pmj/Desktop/catkin_vscode4/build/beginner_tutorials/cmake_install.cmake")
+  include("/home/pmj/Desktop/catkin_vscode4/build/camera/cmake_install.cmake")
+  include("/home/pmj/Desktop/catkin_vscode4/build/image_transport_offical/cmake_install.cmake")
+  include("/home/pmj/Desktop/catkin_vscode4/build/publishimage/cmake_install.cmake")
 
 endif()
 

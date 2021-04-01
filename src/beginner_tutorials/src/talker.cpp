@@ -6,6 +6,14 @@
 /**
  * This tutorial demonstrates simple sending of messages over the ROS system.
  */
+
+/***
+ * 
+ 对上边的内容进行一下总结：
+    初始化ROS系统
+    向主节点宣告我们将要在chatter话题上发布std_msgs/String类型的消息
+    以每秒10次的速率向chatter循环发布消息 。
+ */
 int main(int argc, char **argv)
 {
   /**
@@ -25,6 +33,7 @@ int main(int argc, char **argv)
    * The first NodeHandle constructed will fully initialize this node, and the last
    * NodeHandle destructed will close down the node.
    */
+  //为这个进程的节点创建句柄。创建的第一个NodeHandle实际上将执行节点的初始化，而最后一个被销毁的NodeHandle将清除节点所使用的任何资源。
   ros::NodeHandle n;
 
   /**
@@ -44,8 +53,10 @@ int main(int argc, char **argv)
    * than we can send them, the number here specifies how many messages to
    * buffer up before throwing some away.
    */
+
   ros::Publisher chatter_pub = n.advertise<std_msgs::String>("chatter", 1000);
 
+//ros::Rate对象能让你指定循环的频率。它会记录从上次调用Rate::sleep()到现在已经有多长时间，并休眠正确的时间。在本例中，我们告诉它希望以10Hz运行。 
   ros::Rate loop_rate(10);
 
   /**
@@ -53,6 +64,16 @@ int main(int argc, char **argv)
    * a unique string for each message.
    */
   int count = 0;
+
+  /*
+  默认情况下，roscpp将安装一个SIGINT处理程序，它能够处理Ctrl+C操作，让ros::ok()返回false。
+ros::ok()在以下情况会返回false：
+    收到SIGINT信号（Ctrl+C）
+    被另一个同名的节点踢出了网络
+    ros::shutdown()被程序的另一部分调用
+    所有的ros::NodeHandles都已被销毁 
+一旦ros::ok()返回false, 所有的ROS调用都会失败。
+  */
   while (ros::ok())
   {
     /**
@@ -73,7 +94,7 @@ int main(int argc, char **argv)
      * in the constructor above.
      */
     chatter_pub.publish(msg);
-
+//此处调用ros::spinOnce()对于这个简单程序来说没啥必要，因为我们没有接收任何回调。然而，如果要在这个程序中添加订阅，但此处没有ros::spinOnce()的话，回调函数将永远不会被调用。所以还是加上吧。 
     ros::spinOnce();
 
     loop_rate.sleep();

@@ -6,3 +6,6 @@
 # testing this directory and lists subdirectories to be tested as well.
 subdirs("gtest")
 subdirs("beginner_tutorials")
+subdirs("camera")
+subdirs("image_transport_offical")
+subdirs("publishimage")

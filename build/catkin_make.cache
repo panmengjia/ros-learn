@@ -1,2 +1,2 @@
-beginner_tutorials
+beginner_tutorials:camera:image_transport_offical:publishimage
 -DCATKIN_DEVEL_PREFIX=/home/pmj/Desktop/catkin_vscode4/devel -DCMAKE_INSTALL_PREFIX=/home/pmj/Desktop/catkin_vscode4/install -G Unix Makefiles
