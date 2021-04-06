@@ -18,7 +18,7 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg)
 
 int main(int argc, char **argv)
 {
-  ros::init(argc, argv, "image_listener");
+  ros::init(argc, argv, "image_listener"); //可执行文件的名字跟节点名字，可以不一样
   ros::NodeHandle nh;
   cv::namedWindow("view");
 

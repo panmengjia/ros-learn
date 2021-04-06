@@ -1,37 +1,67 @@
 
-#include <cv_bridge/cv_bridge.h>
-#include <opencv2/highgui/highgui.hpp>
-#include <image_transport/image_transport.h>
+// #include <cv_bridge/cv_bridge.h>
+// #include <opencv2/highgui/highgui.hpp>
+// #include <image_transport/image_transport.h>
+
+// #include <ros/ros.h>
+
+
+// void callback(const sensor_msgs::ImageConstPtr& msg)
+// {
+//     static uint64_t subscribeCount=0;
+//     try{
+//         cv_bridge::CvImageConstPtr cvbImage=cv_bridge::toCvShare(msg,"bgr8");
+//         cv::imshow("image camera ",cvbImage->image);
+//         cv::waitKey(1);
+//         ROS_INFO("subscrib count %d-------------------\n",++subscribeCount);
+//     }
+//     catch(cv_bridge::Exception& e)
+//     {
+//         ROS_ERROR("cannot convert %s to bgr8\n",msg->encoding.c_str());
+//     }
+
+// }
+
+
+// int main(int argc,char** argv)
+// {
+//     ros::init(argc,argv,"camera_subscriber");
+//     ros::NodeHandle camera_subscriber_node;
+
+//     image_transport::ImageTransport imageSubTrans(camera_subscriber_node);
+//     image_transport::Subscriber imageSub = imageSubTrans.subscribe("image_raw",10,callback);
+
+
+//     ros::spin();
+//     return 0;
+// }
 
 #include <ros/ros.h>
+#include <image_transport/image_transport.h>
+#include <opencv2/highgui/highgui.hpp>
+#include <cv_bridge/cv_bridge.h>
 
-
-void callback(const sensor_msgs::ImageConstPtr& msg)
+void imageCallback(const sensor_msgs::ImageConstPtr& msg)
 {
-    static uint64_t subscribeCount=0;
-    try{
-        cv_bridge::CvImageConstPtr cvbImage=cv_bridge::toCvShare(msg,"bgr8");
-        cv::imshow("image camera ",cvbImage->image);
-        cv::waitKey(1);
-        ROS_INFO("subscrib count %d-------------------\n",++subscribeCount);
-    }
-    catch(cv_bridge::Exception& e)
-    {
-        ROS_ERROR("cannot convert %s to bgr8\n",msg->encoding.c_str());
-    }
-
+  try
+  {
+    cv::imshow("view", cv_bridge::toCvShare(msg, "bgr8")->image);
+    cv::waitKey(30);
+  }
+  catch (cv_bridge::Exception& e)
+  {
+    ROS_ERROR("Could not convert from '%s' to 'bgr8'.", msg->encoding.c_str());
+  }
 }
 
-
-int main(int argc,char** argv)
+int main(int argc, char **argv)
 {
-    ros::init(argc,argv,"camera_subscriber");
-    ros::NodeHandle camera_subscriber_node;
+  ros::init(argc, argv, "image_listener");
+  ros::NodeHandle nh;
+  cv::namedWindow("view");
 
-    image_transport::ImageTransport imageSubTrans(camera_subscriber_node);
-    image_transport::Subscriber imageSub = imageSubTrans.subscribe("image_raw",10,callback);
-
-
-    ros::spin();
-    return 0;
+  image_transport::ImageTransport it(nh);
+  image_transport::Subscriber sub = it.subscribe("image", 1, imageCallback);
+  ros::spin();
+  cv::destroyWindow("view");
 }

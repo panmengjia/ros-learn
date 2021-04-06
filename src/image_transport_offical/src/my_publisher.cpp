@@ -12,9 +12,10 @@ int main(int argc, char** argv)
   // Check if video source has been passed as a parameter
   if(argv[1] == NULL) return 1;
 
+//节点名称
   ros::init(argc, argv, "image_publisher");
   ros::NodeHandle nh;
-  image_transport::ImageTransport it(nh);
+  image_transport::ImageTransport it(nh);      //话题名称
   image_transport::Publisher pub = it.advertise("camera/image", 1);
 
   // Convert the passed as command line parameter index for the video device to an integer

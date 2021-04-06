@@ -1,8 +1,0 @@
-prefix=/home/pmj/Desktop/catkin_vscode4/devel
-
-Name: publishimage
-Description: Description of publishimage
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 
